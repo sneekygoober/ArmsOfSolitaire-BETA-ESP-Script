@@ -1,2 +1,3 @@
 # ArmsOfSolitaire-BETA-ESP-Script
-This is a ESP for https://www.roblox.com/games/2555870920/ArmsOfSolitaire-BETA.
+This script is open-source and free. Anyone can modify/use this script without restrictions.
+You can also view this script over at [scriptblox.com](https://scriptblox.com/script/ArmsOfSolitaire-BETA-ESP-Keyless-99437) or [haxhell.com](https://haxhell.com/scripts/armsofsolitaire-beta-armsofsolitaire-beta-esp-keyless).
