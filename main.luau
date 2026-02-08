@@ -16,42 +16,63 @@ container.Name = code("Container");
 
 local Players = cloneref(game:GetService("Players"));
 
-local connections: {string: RBXScriptConnection} = {};
+local connections: {[string]: RBXScriptConnection} = {}
 
-local setup = function(plr: Player, isCleaning: boolean)
+local function setup(plr: Player, isCleaning: boolean?)
+    if plr == Players.LocalPlayer then return; end;
+
     local id = tostring(plr.UserId);
+    local n = code(id);
+
     if isCleaning then
         if connections[id] then
             connections[id]:Disconnect();
             connections[id] = nil;
-            container[code(id)]:Destroy();
         end;
-    elseif not (isCleaning and connections[id]) then
-        local create = function(char: Model)
-            if container:FindFirstChild(code(id)) then container[code(id)]:Destroy(); end;
-            local hl = Instance.new("Highlight", container);
-            hl.Name = code(id);
-            hl.FillTransparency = 0.5;
-            local colour = plr.TeamColor.Color;
-            hl.OutlineColor = colour;
-            hl.FillColor = colour;
-            hl.Adornee = char;
+
+        local existing = container:FindFirstChild(n);
+        if existing then
+            existing:Destroy();
         end;
-        create(plr.Character or plr.CharacterAdded:Wait());
-        connections[id] = plr.CharacterAdded:Connect(create);
+
+        return;
+    end;
+
+    local create = function(char: Model)
+        if not char or not char.Parent then return; end;
+
+        local existing = container:FindFirstChild(n);
+        if existing then
+            existing:Destroy();
+        end;
+
+        local colour = plr.TeamColor.Color;
+
+        local hl = Instance.new("Highlight");
+        hl.Name = n;
+        hl.FillTransparency = 0.5;
+        hl.FillColor = colour;
+        hl.OutlineColor = colour;
+        hl.Adornee = char;
+        hl.Parent = container;
+    end;
+
+    if connections[id] then
+        connections[id]:Disconnect();
+    end;
+
+    connections[id] = plr.CharacterAdded:Connect(create);
+
+    if plr.Character and plr.Character.Parent then
+        create(plr.Character);
     end;
 end;
 
-task.spawn(function()
-    for _, v in next, Players:GetPlayers() do
-        if v == Players.LocalPlayer then continue; end;
-        setup(v, false);
-    end;
-end);
+for _, plr in Players:GetPlayers() do
+    setup(plr);
+end;
 
-Players.PlayerAdded:Connect(function(plr)
-    setup(plr, false);
-end);
+Players.PlayerAdded:Connect(setup);
 
 Players.PlayerRemoving:Connect(function(plr)
     setup(plr, true);
