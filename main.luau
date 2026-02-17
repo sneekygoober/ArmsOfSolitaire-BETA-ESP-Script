@@ -18,7 +18,7 @@ container.Name = code("Container");
 
 local Players = cloneref(game:GetService("Players"));
 
-local connections: {[string]: RBXScriptConnection} = {}
+local connections: {string: RBXScriptConnection} = {}
 
 local function setup(plr: Player, isCleaning: boolean?)
     if plr == Players.LocalPlayer then return; end;
