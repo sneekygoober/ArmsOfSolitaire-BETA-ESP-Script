@@ -1,7 +1,9 @@
 if not game:IsLoaded() then game.Loaded:Wait(); end;
 
 local cloneref = cloneref or function(i: Instance) return i; end;
-local hui = cloneref((gethui and gethui()) or game:GetService("CoreGui"):FindFirstChild("RobloxGui"));
+local _ = cloneref(game:GetService("CoreGui"));
+local hui = _:FindFirstChild("RobloxGui") or _;
+if gethui then local s, r = pcall(gethui); if s then hui = cloneref(r); end; end;
 local SG = loadstring(game:HttpGet("https://raw.githubusercontent.com/sneekygoober/sneeky-s-notifications/refs/heads/main/main.luau"))();
 
 local code = function(n: string): string
