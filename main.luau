@@ -20,7 +20,7 @@ local Players = cloneref(game:GetService("Players"));
 
 local connections: {string: RBXScriptConnection} = {}
 
-local function setup(plr: Player, isCleaning: boolean?)
+local setup = function(plr: Player, isCleaning: boolean?)
     if plr == Players.LocalPlayer then return; end;
 
     local id = tostring(plr.UserId);
