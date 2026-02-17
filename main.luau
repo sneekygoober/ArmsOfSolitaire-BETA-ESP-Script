@@ -61,6 +61,7 @@ local function setup(plr: Player, isCleaning: boolean?)
 
     if connections[id] then
         connections[id]:Disconnect();
+        connections[id] = nil;
     end;
 
     connections[id] = plr.CharacterAdded:Connect(create);
